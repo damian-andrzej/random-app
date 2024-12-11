@@ -15,6 +15,7 @@ db_params = {
 app = Flask(__name__)
 
 def increment_counter():
+  conn = None
   try:
   #database connection
     conn = psycopg2.connect(**db_params)
@@ -27,7 +28,6 @@ def increment_counter():
       cursor.execute("INSERT INTO refresh_counter (counter) VALUES (0);")
 
     cursor.execute("UPDATE refresh_counter SET counter = counter +1;")
-  #FETCH updated counter value
     cursor.execute("SELECT counter FROM refresh_counter;")
     current_counter = cursor.fetchone()[0]
 
